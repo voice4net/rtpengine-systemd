@@ -24,16 +24,32 @@ if [ -e /proc/rtpengine/control ]; then
 	echo "del $TABLE" > /proc/rtpengine/control 2>/dev/null
 fi
 	
-iptables -D rtpengine -p udp -j RTPENGINE --id "$TABLE" 2>/dev/null       
-iptables -D INPUT -j rtpengine 2> /dev/null
-iptables -D rtpengine 2> /dev/null
+RULE_NUMBER=$(iptables -L INPUT --line-numbers | awk '/udp dpts:[0-9]+:[0-9]+ \/\* rtpengine in-kernel packet forwarding \*\// {print $1}')
+
+if [ ! -z $RULE_NUMBER ]
+then
+    iptables -D INPUT $RULE_NUMBER
+fi
+
+RULE_NUMBER=$(iptables -L INPUT --line-numbers | awk '/udp dpts:[0-9]+:[0-9]+ \/\* RTP PORT RANGE \*\// {print $1}')
+
+if [ ! -z $RULE_NUMBER ]
+then
+    iptables -D INPUT $RULE_NUMBER
+fi
+
+iptables -F rtpengine
+iptables -X rtpengine
+
+#iptables -D rtpengine -p udp -j RTPENGINE --id "$TABLE" 2>/dev/null       
+#iptables -D INPUT -j rtpengine 2> /dev/null
+#iptables -D rtpengine 2> /dev/null
 
 # The same for ip6tables rules
-ip6tables -D rtpengine -p udp -j RTPENGINE --id "$TABLE" 2>/dev/null
-ip6tables -D INPUT -j rtpengine 2> /dev/null
-ip6tables -D rtpengine 2> /dev/null
+#ip6tables -D rtpengine -p udp -j RTPENGINE --id "$TABLE" 2>/dev/null
+#ip6tables -D INPUT -j rtpengine 2> /dev/null
+#ip6tables -D rtpengine 2> /dev/null
 
 rmmod xt_RTPENGINE 2>/dev/null
 
 exit 0
-

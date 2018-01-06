@@ -1,8 +1,5 @@
 # Running the RTPEngine Under Systemd Control
 
-Bash script to Compile and install the Sipwise RTPEngine: 
-[Click Here!](https://github.com/Binan/rtpengine-docker/blob/master/rtpengine_Install.sh)
-
 To run the RTPEngine under systemd control, follow these steps:
 
 Clone the repository to your local machine:
