@@ -4,11 +4,11 @@ To run the RTPEngine under systemd control, follow these steps:
 
 Clone the repository to your local machine:
 
-	# git clone https://github.com/Binan/rtpengine-systemd.git
+	# git clone https://github.com/voice4net/rtpengine-systemd.git
 
 	# cd rtpengine-systemd
 
-Edit the configuration file " rtpengine-conf " to reflect your configuration. Then install the files in your system:
+Edit the configuration file "rtpengine-conf " to reflect your configuration. Then install the files in your system:
 
 	# cp rtpengine-conf /etc/default/rtpengine-conf
 
@@ -21,7 +21,7 @@ Edit the configuration file " rtpengine-conf " to reflect your configuration. Th
 
 	# chmod +x /usr/bin/rtpengine/rtpengine-stop-post
 
-In the systemd unit file, the option "ExecStopPost" is used to clean the system after the RTPEngine daemon is stopped. This incolves: deleting the forwarding table, the iptables related rules, and unload the kernel module (xt_RTPENGINE).
+In the systemd unit file, the option "ExecStopPost" is used to clean the system after the RTPEngine daemon is stopped. This involves: deleting the forwarding table, the iptables related rules, and unload the kernel module (xt_RTPENGINE).
 
 Now you can enable/start/stop/status of the rtpengine service as following:
 
